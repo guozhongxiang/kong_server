@@ -1,0 +1,1140 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>订单详情 - 安装超人管理平台</title>
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/admin.css">
+  <script src="/static/jquery.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<include file="public/header" /> 
+
+<div class="am-cf admin-main">
+<include file="public/sidebar" /> 
+ <!-- content start -->
+ 	
+<!-- 订单修改开始  -->
+              <input type="hidden" id="id" name="id" value="{$order_info['id']}">
+      <div class="" id="order_box" style="display:none; width:600px;padding:25px 0;">
+        <form class="am-form am-form-horizontal" method="post" action="{:U('/admin/order/orderEdit')}">
+          <div class="am-form-group">
+            <label for="buyer_name" class="am-u-sm-3 am-form-label">买家姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="buyer_name" name="buyer_name" value="{$order_info['buyer_name']}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="buyer_mobile" class="am-u-sm-3 am-form-label">买家手机</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="buyer_mobile" name="buyer_mobile" value="{$order_info['buyer_mobile']}">
+            </div>
+          </div>
+
+          <div class="am-form-group m-form-inline">
+            <label for="user-phone" class="am-u-sm-3 am-form-label">地区</label>
+            <div class="am-u-sm-9">
+				<select class="sel" id="provincial" name="province_id">
+					<option value="0">请选择</option>
+					<volist name="provincial_list" id="data">
+					<option value="{$data['id']}" <if condition="$order_info['province_id'] eq $data['id']">selected</if>>{$data['area_name']}</option>
+					</volist>
+				</select>
+				<select class="sel" id="municipal" name="city_id">
+					<option value="0">请选择</option>
+					<volist name="City_list" id="data">
+					<option value="{$data['id']}" <if condition="$order_info['city_id'] eq $data['id']">selected</if>>{$data['area_name']}</option>
+					</volist>
+				</select>
+				<select class="sel" id="county" name="county_id">
+					<option value="0">请选择</option>
+					<volist name="County_list" id="data">
+					<option value="{$data['id']}" <if condition="$order_info['county_id'] eq $data['id']">selected</if>>{$data['area_name']}</option>
+					</volist>
+				</select>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="buyer_address" class="am-u-sm-3 am-form-label">买家详细地址</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="buyer_address" name="buyer_address" value="{$order_info['buyer_address']}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="wl_mobile" class="am-u-sm-3 am-form-label">物流电话</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="wl_mobile" name="wl_mobile" value="{$order_info['wl_mobile']}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="wl_address" class="am-u-sm-3 am-form-label">物流地址</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="wl_address" name="wl_address" value="{$order_info['wl_address']}">
+            </div>
+          </div>
+		<div class="am-margin">
+			<input type="submit" class="am-btn am-btn-primary" id="edit_order" _waring="确定修改买家信息？" value="确定修改">
+		</div>
+		
+        </form>
+      </div>
+<!--  订单修改结束 -->
+
+
+<!-- 价格 客户备注开始  -->
+      <div class="" id="price_remark_box" style="display:none; width:600px;padding:25px 0;">
+        <form class="am-form am-form-horizontal" method="post" action="{:U('/admin/order/priceremark')}">
+          <div class="am-form-group">
+            <label for="pd_price" class="am-u-sm-3 am-form-label">派单价格</label>
+            <div class="am-u-sm-9">
+              	<input type="text" id="pd_price" value="{$order_info['pd_price']}" style="width:80px; display:inline-block; padding:10px;">&nbsp;元
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="kf_remark" class="am-u-sm-3 am-form-label">客服备注</label>
+            <div class="am-u-sm-9">
+              	<textarea id="kf_remark" rows="5">{$order_info['kf_remark']}</textarea>
+            </div>
+          </div>
+		<div class="am-margin" style="text-align:center;">
+			<input type="submit" class="am-btn am-btn-primary" id="edit_price_remark" value="确定修改">
+		</div>
+		
+        </form>
+      </div>
+<!--  价格 客服备注结束 -->
+
+
+
+
+<!-- 修改物流信息开始 -->
+      <div class="" id="edit_logistics_box" style="display:none; width:600px;padding:25px 0;">
+        <form class="am-form am-form-horizontal" method="post" action="{:U('/admin/order/editlogistics')}">
+          <div class="am-form-group">
+            <label for="" class="am-u-sm-3 am-form-label"></label>
+            <div class="am-u-sm-9">                
+                <span style="padding-left:20px; color:red;"><label>
+                  <input type="radio" class="is_arrived" name="is_arrived" value="0" <if condition="$order_info['is_arrived'] eq 0">checked="checked"</if>>
+                未到达</label></span>
+                <span style="padding-left:20px; color:green;"><label>
+                  <input type="radio" class="is_arrived" name="is_arrived" value="1" <if condition="$order_info['is_arrived'] eq 1">checked="checked"</if>>
+                已到物流站</label>
+                </span>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="arrive_time" class="am-u-sm-3 am-form-label">到达时间</label>
+            <div class="am-u-sm-9">
+              <input type="text" name="arrive_time" class="arrive_time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="{:date("Y-m-d H:i:s",$order_info['arrive_time'])}" />
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="wl_mobile" class="am-u-sm-3 am-form-label">物流电话</label>
+            <div class="am-u-sm-9">
+              <input type="text" name="wl_mobile" class="wl_mobile" value="{$order_info['wl_mobile']}"/>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="wl_address" class="am-u-sm-3 am-form-label">物流地址:</label>
+            <div class="am-u-sm-9">
+             <input type="text" name="wl_address" class="wl_address" value="{$order_info['wl_address']}"/>
+            </div>
+          </div>
+
+    <div class="am-margin" style="text-align:center;">
+      <input type="submit" class="am-btn am-btn-primary" id="edit_logistics_ok" value="确定修改">
+    </div>
+    
+        </form>
+      </div>
+<!-- 修改物流信息结束 -->
+
+
+<!-- 已联系买家开始 -->
+      <div class="" id="bespeak_time_box" style="display:none; width:400px;padding:25px 0;">
+          <div class="am-form-group">
+            <label for="pd_price" class="am-u-sm-4 am-form-label">预约上门时间</label>
+            <div class="am-u-sm-8">
+              	<input type="text" id="bespeak_time" name="bespeak_time" class="time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:200px; display:inline-block; padding:10px;">
+            </div>
+          </div>
+		<div class="am-margin" style="text-align:center;">
+			<input type="submit" class="am-btn am-btn-primary" id="orderContact" value="已联系买家">
+		</div>
+      </div>
+<!--  已联系买家结束 -->
+
+  <div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+		<strong class="am-text-primary am-text-lg">订单修改</strong>
+		<if condition="($order_info['status'] eq -1)">
+		<span style="padding-left:10px; color:red;">已取消
+			<if condition="($order_info['cancel_commit'] neq '')">
+			{$order_info['cancel_commit']}
+			</if>
+		</if>
+		</span>
+		<!-- <a type="button" class="am-btn am-btn-default am-btn-xs" href="{:U('admin/manage/add','admin_type=admin')}"><span class="am-icon-plus"></span> 新增</a> --></div>
+	</div>
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th  colspan="2" class="table-title">订单基本信息
+				<if condition="($order_info['status'] eq 3) and ($order_info['service_id'] eq session('admin_id'))">
+				<a class="am-btn am-btn-default am-btn-xs" id="show_order_box">修改</a>
+				</if>
+				</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr>
+				<td>订单号：{$order_info['order_id']}</td>
+				<td>下单卖家：
+						{$order_info['shop_name']} ({$order_info['vip_phone']})
+				</td>
+            </tr>
+            <tr><td colspan="2">下单时间：{:date("Y年m月d日 H:i:s",$order_info['order_time'])}</td></tr>
+            <tr><td colspan="2">订单附言：{$order_info['order_message']}
+			<if condition="($order_info['source'] eq 1576) and ($order_info['auditstatus'] neq '')">
+            <br/><br/>--------------------审核意见-------------------- <br/>
+			  <if condition="$order_info['auditstatus'] eq 'Y'">审核状态：同意
+			  <elseif condition="$order_info['auditstatus'] eq 'N'"/><font color="red">审核状态：不同意(请到页面最下面，点击“已完成”按钮重新认真填写签收信息)</font>
+			  <else />未审核</if>
+			  <br/>审核意见：{$order_info['auditopinion']}
+			</if>
+			
+			</td></tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr><th  colspan="2" class="table-title">物流信息
+                <if condition="$order_info['status'] ELT 5">
+                  <a class="am-btn am-btn-primary am-btn-xs" id="edit_logistics" style="margin-left:20px;">修改物流信息</a>
+                </if>
+                </th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2">
+                <span>是否到货：</span>
+                <if condition="$order_info['is_arrived'] eq 1"><span style="color:green;">已到物流站</span><else /><span style="color:red;">未到达</span></if>
+                </span>
+				
+				
+                <if condition="$order_info['source'] gt 0"><span style="padding-left:20px;">API会员订单号：</span>
+                <span>{$order_info['mailno']}</span></if>
+              </td>
+            </tr>
+            <tr><td colspan="2">到达时间：<if condition="$order_info['arrive_time'] gt 0">{:date("Y年m月d日 H:i:s",$order_info['arrive_time'])}<else />暂无</if></td></tr>
+            <tr><td colspan="2">物流电话：{$order_info['wl_mobile']}</td></tr>
+            <tr><td colspan="2">物流地址：{$order_info['wl_address']}</td></tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+    
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th  colspan="2" class="table-title">买家信息</th>
+              </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td>买家姓名：{$order_info['buyer_name']}</td>
+              <td>买家手机：{$order_info['buyer_mobile']}</td>
+            </tr>
+            <tr>
+              <td colspan="2">买家地址：{$order_info['ssx_txt']}</td>
+            </tr>
+            <tr>
+              <td colspan="2">买家详细地址：{$order_info['buyer_address']}</td>
+            </tr>
+            <tr>
+              <td colspan="2">预约上门时间：
+                <if condition="$order_info['bespeak_time'] gt 0">{:date("Y年m月d日 H:i:s",$order_info['bespeak_time'])}<else/>无</if>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+ 
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th  colspan="2" class="table-title">联盟成员信息
+                <if condition="$order_info['status'] gt 3">
+                  <a class="am-btn am-btn-primary am-btn-xs" style="margin-left:20px;" href="#" id="changeWorker_layer">修改联盟成员</a>
+                </if>
+        </th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr>
+				<td colspan="2">联盟成员：
+					<if condition="$order_info['worker_id'] gt 0">
+					{$order_info['worker_name']}；编号:{$order_info['worker_id']}；联系方式：{$order_info['worker_phone']}；
+					<br>
+					支付类型：<if condition="$order_info['worker_pay_type'] eq 0">日结<else/>月结</if>；
+					账户信息：<if condition="$order_info['worker_account_str'] eq ''">暂无联盟成员账户信息<else/>{$order_info['worker_account_str']}</if>;
+					<else/>
+					暂无负责配送的联盟成员
+					</if>
+				</td>
+            </tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+    
+ 
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th  colspan="2" class="table-title">其他信息
+					<a class="am-btn am-btn-primary am-btn-xs" id="show_price_remark" style="margin-left:20px;">修改其他信息</a>
+				</th>
+              </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td colspan="2">派单价格：
+              	<if condition="$order_info['pd_price'] eq 0">暂无<else />{$order_info['pd_price']}</if>
+				</td>
+            </tr>
+            <tr>
+              <td colspan="2">客服备注：
+              	<if condition="$order_info['kf_remark'] eq ''">暂无<else />{$order_info['kf_remark']}</if>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+ 
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th  colspan="4" class="table-title">清单列表</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr><td>产品</td><td>数量</td><td>服务</td><td>价格</td></tr>
+			<volist name="order_product_list" id="product">
+            <tr>
+              <td>{$product['name']}</td>
+              <td>{$product['num']}</td>
+              <td>{$product['service_txt']}</td>
+              <td>{$product['total']}</td>
+            </tr>
+            </volist>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+
+	
+	<div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th  colspan="2" class="table-title">订单价格</th>
+              </tr>
+          </thead>
+          <tbody>
+            <!--<tr><td>产品</td><td>数量</td><td>服务</td><td>价格</td></tr>-->
+			
+            <tr>
+              <td>是否需要配送：</td>
+              <td><if condition="$order_info['order_ps_price'] gt 0">是（配送范围在30公里以内）<else/>否</if></td>
+            </tr>
+			
+            <tr>
+              <td>配送费：</td>
+              <td>{$order_info['order_ps_price']}元</td>
+            </tr>
+            <tr>
+              <td>配送简装优惠：</td>
+              <td>- {$order_info['xj_ps_yh']}元</td>
+            </tr>
+            <tr>
+              <td>订单总价：</td>
+              <td>{$order_info['order_total']}元</td>
+            </tr>
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>
+	
+
+	
+    <div class="am-g">
+      <div class="am-u-sm-12">
+	  <table class="am-table am-table-striped am-table-hover table-main">
+		<thead>
+			<tr><th  colspan="2" class="table-title">用户评论</th></tr>
+		</thead>
+		<tbody>
+		  
+		<if condition="$has_comment">
+			<tr>
+				<td>评论内容：</td>
+				<td><if condition="$comment_data['comment'] eq ''">暂无<else />
+				{$comment_data['comment']}</if></td>
+			</tr>
+			<tr>
+				<td>服务得分：</td>
+				<td>{$comment_data['service_score']}分</td>
+			</tr>
+			<tr>
+				<td>专业得分：</td>
+				<td>{$comment_data['pro_score']}分</td>
+			</tr>
+			<tr>
+				<td>图片列表：</td>
+				<td>
+				<volist name="img_list" id="data">
+				<a href="{$data}" target="_blank"><img src="{$data}_small.jpg" style="display:inline-block; margin:0 10px;"></a>
+				</volist></td>
+			</tr>
+		<else />
+			<tr>
+				<td>暂无评论</td>
+				<td></td>
+			</tr>
+		</if>
+          </tbody>
+        </table>
+		</ul>
+		</div>
+	</div>
+	
+	
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th  colspan="4" class="table-title">订单状态跟踪</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr><td>状态</td><td>时间</td><td>备注</td></tr>
+            <tr <if condition="$order_info['status'] EGT 1">style="color: red;"</if>>
+              <td>1,订单被创建</td>
+              <td>{:date("Y年m月d日 H:i:s",$order_info['order_time'])}</td>
+              <td>订单被会员 {$order_info['vip_phone']} 创建</td>
+            </tr>
+            <tr  <if condition="$order_info['status'] EGT 2">style="color: red;"</if>>
+              <td>2,订单支付成功</td>
+              <td><if condition="($order_info['status'] EGT 2) AND ($order_info['pay_time'] GT 0)">{:date("Y年m月d日 H:i:s",$order_info['pay_time'])}</if></td>
+              <td><if condition="($order_info['status'] EGT 2) AND ($order_info['pay_id'] GT 0)">{$order_info['pay_type']}：交易编号{$order_info['pay_id']}</if></td>
+            </tr>
+            <tr  <if condition="$order_info['status'] EGT 3">style="color: red;"</if>>
+              <td>3,客服接单</td>
+              <td><if condition="$order_info['status'] EGT 3">{:date("Y年m月d日 H:i:s",$order_info['confirm_time'])}</if></td>
+              <td><if condition="$order_info['status'] EGT 3">客服 {$order_info['admin_name']} 接单</if></td>
+            </tr>
+            <tr  <if condition="$order_info['status'] EGT 4">style="color: red;"</if>>
+              <td>4,派单成功</td>
+              <td><if condition="$order_info['status'] EGT 4">{:date("Y年m月d日 H:i:s",$order_info['paidan_time'])}</if></td>
+              <td><if condition="$order_info['status'] EGT 4">订单被指派给 {$order_info['worker_id']}号联盟成员处理</if></td>
+            </tr>
+            <tr  <if condition="$order_info['status'] EGT 5">style="color: red;"</if>>
+              <td>5,联系买家</td>
+              <td><if condition="$order_info['status'] EGT 5">{:date("Y年m月d日 H:i:s",$order_info['contact_time'])}</if></td>
+              <td>预约上门时间：<if condition="$order_info['bespeak_time'] gt 0">{:date("Y年m月d日 H:i:s",$order_info['bespeak_time'])}<else/>无</if></td>
+            </tr>
+            <tr <if condition="$order_info['status'] EGT 6">style="color: red;"</if>>
+              <td>6,提货上门</td>
+              <td><if condition="$order_info['status'] EGT 6">{:date("Y年m月d日 H:i:s",$order_info['action_time'])}</if></td>
+              <td></td>
+            </tr>
+            <tr  <if condition="$order_info['status'] EGT 7">style="color: red;"</if>>
+              <td>7,订单处理完成</td>
+              <td><if condition="$order_info['status'] EGT 7">{:date("Y年m月d日 H:i:s",$order_info['ok_time'])}</if></td>
+              <td>
+			  <if condition="($order_info['status'] GT 3) AND ($order_info['finance_status'] eq 0)"> 
+				<a class="am-btn am-btn-primary carryOut" style="font-size:12px;" _waring="派单价格：<font color='red' style='font-size:18px'><if condition="$order_info['pd_price'] eq 0">暂无<else />{$order_info['pd_price']}</if></font> <br/>确定提交此单给值班经理审核？"  href="{:U('Order/submitAudit','id='.$order_info['id'],'')}" id="orderConfirm">提交值班经理审核</a>
+			  <elseif condition="($order_info['status'] GT 3) AND ($order_info['finance_status'] eq 1)"/>
+				<a class="am-btn am-btn-primary carryOut" style="font-size:12px;" _waring="确定撤销此申请？"  href="{:U('Order/revokeAudit','id='.$order_info['id'],'')}" id="orderConfirm">撤销申请</a>
+			  </if>
+			  <if condition="$order_info['finance_status'] eq 1"> 
+				<a class="am-btn am-btn-primary carryOut" style="font-size:12px;" _waring="派单价格：<font color='red' style='font-size:18px'><if condition="$order_info['pd_price'] eq 0">暂无<else />{$order_info['pd_price']}</if></font> <br/>确定付款申请审核通过？"  href="{:U('Order/waitPayAjax','id='.$order_info['id'],'')}" id="orderConfirm">付款申请审核通过</a>
+			  </if>
+			  <if condition="$order_info['finance_status'] eq 2"> 
+			  待财务结款中
+			  </if>
+			  </td>
+            </tr>
+            
+            <tr  <if condition="$order_info['status'] EGT 8">style="color: red;"</if>>
+              <td>8,已结款</td>
+              <td><if condition="$order_info['status'] EGT 8">{:date("Y年m月d日 H:i:s",$order_info['paymented_time'])}</if></td>
+              <td></td>
+            </tr>
+			
+			
+          </tbody>
+        </table>
+          <hr />
+        </form>
+      </div>
+    </div>	
+<!--修改联盟成员弹窗-->	
+<div style="display:none;" id="changeWorker_box">
+		<div class="am-g am-margin-top" >
+			<div class="am-u-sm-6 am-text-right">请输入联盟成员编号</div>
+			<div class="am-u-sm-6">
+				<input type="hidden" name="id" value="{$order_info['id']}">
+				<input type="text" class="am-input-sm" name="worker_id" id="worker_id">
+			</div>
+		</div>
+
+		<div id="search_box" style="display:none;">
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-6 am-text-right">联盟成员编号</div>
+			<div class="am-u-sm-6" id="wroker_id">
+			</div>
+		</div>
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-6 am-text-right">姓名</div>
+			<div class="am-u-sm-6" id="real_name">
+			</div>
+		</div>
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-6 am-text-right">号码</div>
+			<div class="am-u-sm-6" id="telephone">
+			</div>
+		</div>
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-6 am-text-right">地区</div>
+			<div class="am-u-sm-6" id="overlay_area">
+			</div>
+		</div>
+		</div>
+		
+		<div class="am-margin">
+			<input type="submit" class="am-btn am-btn-primary" _id="{$order_info['id']}" _waring="" _type="1"  value="确定修改" id="changeWorker">
+		</div>
+	</div>
+	
+<if condition="($order_info['status'] eq 2) and ($order_info['service_id'] eq 0)">
+	<!-- 接单 确认订单-->
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">我要接单</th>
+              </tr>
+          </thead>
+        </table>
+		<div class="am-margin">
+			<a class="am-btn am-btn-primary carryOut" _waring="确定接此单？"  href="{:U('Order/orderConfirm','id='.$order_info['id'],'')}" id="orderConfirm">我要接单</a>
+		</div>
+      </div>
+    </div>
+	<!-- 接单 确认订单结束 -->
+	
+<elseif condition="$order_info['status'] eq 3"/>
+	<!-- 派单开始 -->
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">派单</th>
+              </tr>
+          </thead>
+        </table>
+		<form action="{:U('Order/orderPaidan')}" method="post">
+		
+			<div class="am-g am-margin-top">
+				<div class="am-u-sm-2 am-text-right">请输入联盟成员编号</div>
+				<div class="am-u-sm-4">
+					<input type="hidden" name="id" value="{$order_info['id']}">
+					<input type="text" class="am-input-sm" name="worker_id" id="worker_id">
+				</div>
+				<div class="am-u-sm-6"></div>
+			</div>
+
+			<div id="search_box" style="display:none;">
+			<div class="am-g am-margin-top">
+				<div class="am-u-sm-2 am-text-right">联盟成员编号</div>
+				<div class="am-u-sm-10" id="wroker_id">
+				</div>
+			</div>
+			<div class="am-g am-margin-top">
+				<div class="am-u-sm-2 am-text-right">姓名</div>
+				<div class="am-u-sm-10" id="real_name">
+				</div>
+			</div>
+			<div class="am-g am-margin-top">
+				<div class="am-u-sm-2 am-text-right">号码</div>
+				<div class="am-u-sm-10" id="telephone">
+				</div>
+			</div>
+			<div class="am-g am-margin-top">
+				<div class="am-u-sm-2 am-text-right">地区</div>
+				<div class="am-u-sm-10" id="overlay_area">
+				</div>
+			</div>
+			</div>
+			
+			<div class="am-margin">
+				<input type="submit" class="am-btn am-btn-primary" _id="{$order_info['id']}" _waring=""  value="确定派单" id="paidan">
+			</div>
+			
+		</form>
+      </div>
+    </div>
+	<!-- 派单结束 -->
+
+
+<elseif condition="$order_info['status'] eq 4"/>
+
+		
+	<!-- 已联系买家 -->
+	
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">已联系买家</th>
+              </tr>
+          </thead>
+        </table>
+		<div class="am-margin">
+			<span class="am-btn am-btn-primary" id="orderContactbtn">已联系买家</span>
+		</div>
+      </div>
+    </div>
+	<!-- 已联系买家结束 -->	
+
+
+<elseif condition="$order_info['status'] eq 5"/>
+	<!-- 提货上门 -->
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">提货上门</th>
+              </tr>
+          </thead>
+        </table>
+		<div class="am-margin">
+			<a class="am-btn am-btn-primary carryOut"  _waring="确定修改订单状态为:提货上门？"  href="{:U('Order/orderAction','id='.$order_info['id'],'')}" id="orderAction">提货上门</a>
+		</div>
+      </div>
+    </div>
+	<!-- 提货上门结束 -->	
+
+	
+<elseif condition="($order_info['status'] eq 6) Or ($order_info['auditstatus'] eq 'N') "/>		
+	<if condition="$order_info['source'] eq 1576">
+	<script type="text/javascript">
+	$(function (){
+		$('#orderOK').click(function() {
+			var i = $.layer({
+				type: 1,
+				title: '填写修改签收参数',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['650px','450px'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#sign_box'
+				},
+				end: function(){
+					
+				}
+			});
+			return false
+		});
+		
+
+	});
+	</script>
+	</if>
+	<!-- 已完成 -->
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">已完成</th>
+              </tr>
+          </thead>
+        </table>
+		<div class="am-margin">
+			<a class="am-btn am-btn-primary <if condition="$order_info['source'] eq 0">carryOut</if>" _waring="确定修改订单状态为已完成？" href="{:U('Order/orderOK','id='.$order_info['id'],'')}" id="orderOK">已完成</a>
+		</div>
+      </div>
+    </div>
+	<!-- 已完成结束 -->	
+	<!-- 签收参数修改开始  -->
+		  <div class="" id="sign_box" style="display:none; width:600px;padding:25px 0;">
+			<form class="am-form am-form-horizontal" method="post" action="{:U('Order/orderOK','id='.$order_info['id'],'')}">
+			  <div class="am-form-group">
+				<label for="pd_price" class="am-u-sm-3 am-form-label">签收状态</label>
+				<div class="am-u-sm-9">
+					<select id="signstate" name="signstate">
+						<option value="01">正常签收</option>
+						<option value="02">异常-破损</option>
+						<option value="03">异常-潮湿</option>
+						<option value="04">异常-污染</option>
+						<option value="05">异常-内物短少</option>
+						<option value="06">异常-其他</option>
+						<option value="07">同票多类异常</option>
+						<option value="08">货物及费用与运单信息不符</option>
+					</select>
+				</div>
+			  </div>
+
+			  <div class="am-form-group">
+				<label for="serviceCharge" class="am-u-sm-3 am-form-label">服务金额</label>
+				<div class="am-u-sm-9">
+					<input type="text" id="serviceCharge" name="serviceCharge" style="width:200px; display:inline-block; padding:10px;">
+				</div>
+			  </div>			  
+			  <div class="am-form-group">
+				<label for="realInstallInfo" class="am-u-sm-3 am-form-label">安装物品详细</label>
+				<div class="am-u-sm-6">
+					<textarea id="realInstallInfo" name="realInstallInfo" rows="3">
+					</textarea>
+				</div>
+				<div class="am-u-sm-3">数据格式举例： 椅子X2；桌子X3；沙发X4；</div>
+			  </div>
+			  <div class="am-form-group">
+				<label for="signMemo" class="am-u-sm-3 am-form-label">备注</label>
+				<div class="am-u-sm-9">
+					<textarea id="signmemo" name="signmemo" rows="3">
+					</textarea>
+				</div>
+			  </div>
+			<div class="am-margin" style="text-align:center;">
+				<input type="submit" class="am-btn am-btn-primary" id="orderOK_submit" value="确定修改">
+			</div>
+			
+			</form>
+		  </div>
+	<!--  签收参数修改结束 -->
+<elseif condition="($order_info['status'] eq 7) and ($Think.session.admin_id eq 4)"/>
+	
+	<!-- 已结款 -->
+	<div class="am-g">
+      <div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+          <thead>
+              <tr>
+				<th class="table-title">已结款</th>
+              </tr>
+          </thead>
+        </table>
+		<div class="am-margin">
+			<a class="am-btn am-btn-primary carryOut" _waring="确定修改订单状态为已结款？" href="{:U('Order/paymented','id='.$order_info['id'],'')}" id="paymented">已结款</a>
+		</div>
+      </div>
+    </div>
+	<!-- 已结款 -->	
+
+</if>	
+  </div>
+  <!-- content end -->
+
+</div>
+
+
+<include file="public/footer" /> 
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/static/assets/js/polyfill/rem.min.js"></script>
+<script src="/static/assets/js/polyfill/respond.min.js"></script>
+<script src="/static/assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/static/assets/js/app.js"></script>
+<script src="/static/layer.min.js"></script>
+<script src="/static/DatePicker/WdatePicker.js"></script>
+<script src="/static/area_sel.js"></script>
+<script type="text/javascript">
+$(function(){
+	var is_have_worker=false;
+	$('#worker_id').keyup(function(){
+		$.ajax({
+			type: "GET",
+			url: "/admin/order/getworker",
+			data:'id='+$('#worker_id').val(),
+			success: function(data){
+						if(data.status==1){
+							$('#wroker_id').text(data['id']);
+							$('#real_name').text(data['real_name']);
+							$('#telephone').text(data['telephone']);
+							$('#overlay_area').text(data['overlay_area']);
+							$('#search_box').show();
+							is_have_worker=true;
+						}else{
+							$('#wroker_id').text('匹配不到');
+							$('#real_name').text('匹配不到');
+							$('#telephone').text('匹配不到');
+							$('#overlay_area').text('匹配不到');
+							$('#search_box').show();
+							is_have_worker=false;
+						}
+						$('#paidan').attr('_waring','确定给'+$('#worker_id').val()+'号工人派单？');
+						$('#changeWorker').attr('_waring','确定给'+$('#worker_id').val()+'号工人派单？');
+
+					}
+		});
+	});
+	
+	$('#paidan,#changeWorker').click(function() {
+		$this=$(this);
+		if(!is_have_worker){
+			tips($('#worker_id'),'请填写正确的联盟成员id')
+			return false;
+		}
+		layer.confirm($this.attr('_waring'), function(){
+			//alert("{:U('Order/orderPaidan')}"+"/id/"+$('#paidan').attr('_id')+"/worker_id/"+$('#worker_id').val());
+			if ($this.attr('_type')==1) {
+				window.location.href="{:U('Order/orderPaidan')}"+"/id/"+$this.attr('_id')+"/worker_id/"+$('#worker_id').val()+"/type/1";
+			} else {
+				window.location.href="{:U('Order/orderPaidan')}"+"/id/"+$this.attr('_id')+"/worker_id/"+$('#worker_id').val();
+			}
+		},'提醒');
+		return false;
+	});	
+	
+	$('#show_order_box').click(function(){
+			var i = $.layer({
+				type: 1,
+				title: '协助卖家修改订单',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['650px','600px'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#order_box'
+				},
+				end: function(){
+					
+				}
+			});
+	});
+	
+	$('#show_price_remark').click(function(){
+			var i = $.layer({
+				type: 1,
+				title: '修改派单价格，以及添加客服备注',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['650px','350px'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#price_remark_box'
+				},
+				end: function(){
+					
+				}
+			});
+	});
+	
+	//已联系买家
+	$('#orderContactbtn').click(function(){
+			var i = $.layer({
+				type: 1,
+				title: '确定修改订单状态为:已联系买家？',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['450px','250px'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#bespeak_time_box'
+				},
+				end: function(){
+					
+				}
+			});
+	});
+	 
+   //修改物流信息
+  $('#edit_logistics').click(function() {
+      var i = $.layer({
+        type: 1,
+        title: '修改物流状态',
+        closeBtn: [0 , true],
+        shadeClose: true,
+        border : [5, 0.5, '#666', true],
+        offset:['50px' , ''],
+        area: ['650px','350px'],
+        fadeIn: 0,
+        shadeClose : false,
+        page: {
+          dom: '#edit_logistics_box'
+        },
+        end: function(){
+          
+        }
+      });
+  });
+  $('#edit_logistics_ok').click(function(){
+    var $id = $('#id');
+    var $arrive_time = $('#edit_logistics_box .arrive_time'); 
+    var $wl_mobile = $('#edit_logistics_box .wl_mobile');
+    var $wl_address = $('#edit_logistics_box .wl_address');
+    
+    var arrive_time = $.trim($arrive_time.val());
+    var wl_mobile = $.trim($wl_mobile.val());
+    var wl_address = $.trim($wl_address.val());
+    if (!arrive_time) {
+      tips($arrive_time,'请填写到达时间')
+      return false;
+    }
+    if (!wl_mobile) {
+      tips($wl_mobile,'请填写物流电话')
+      return false;
+    }
+    if (!wl_address) {
+      tips($wl_address,'请填写物流地址')
+      return false;
+    }
+    $.ajax({  
+      type:"POST", 
+      url:"/admin/order/editlogistics", 
+      data:{id:$id.val(), is_arrived:$("input[name='is_arrived']:checked").val(), arrive_time:arrive_time, wl_mobile:wl_mobile,wl_address:wl_address}, 
+      success: function(data){
+                  if(data.status==1){
+                    layer.msg(data.info,1,1,function(){
+                      location.reload();
+                    });
+                  }else{
+                    layer.msg(data.info,1,9);
+                  }
+                }
+            });
+    return false;
+      
+  });
+
+
+  $('#orderContact').click(function() {
+    var $bespeak_time=$('#bespeak_time');
+    
+    $.ajax({
+      type: "POST",
+      url: "/admin/order/orderContact",
+      data:'id='+$('#id').val()+'&bespeak_time='+$bespeak_time.val(),
+      success: function(data){
+                if(data.status==1){
+                  layer.msg(data.info,1,1,function(){
+                    location.reload();
+                  });
+                }else{
+                  layer.msg(data.info,1,9);
+                }
+              }
+    });
+    return false;
+
+  });
+	
+
+
+	//修改联盟成员
+	$('#changeWorker_layer').click(function(){
+			var i = $.layer({
+				type: 1,
+				title: '修改联盟成员',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['650px','350px'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#changeWorker_box'
+				},
+				end: function(){
+					
+				}
+			});
+			return false;
+	});
+	
+	$('.carryOut').click(function() {
+		$this=$(this);
+		layer.confirm($this.attr('_waring'), function(){
+			window.location.href=$this.attr('href');
+		},'提醒')
+		return false;
+	});	
+	
+	$('#edit_price_remark').click(function(){
+		var $pd_price=$('#pd_price');
+		var $kf_remark=$('#kf_remark');
+		
+		$.ajax({
+			type: "POST",
+			url: "/admin/order/priceremark",
+			data:'id='+$('#id').val()+'&pd_price='+$pd_price.val()+'&kf_remark='+$kf_remark.val(),
+			success: function(data){
+						if(data.status==1){
+							layer.msg(data.info,1,1,function(){
+								location.reload();
+							});
+						}else{
+							layer.msg(data.info,1,9);
+						}
+					}
+		});
+		return false;
+			
+	});
+	
+	$('#edit_order').click(function(){
+		var $buyer_name=$('#buyer_name');
+		var $buyer_mobile=$('#buyer_mobile');
+		var $provincial=$('#provincial');
+		var $municipal=$('#municipal');
+		var $county=$('#county');
+		var $buyer_address=$('#buyer_address');
+		var $wl_mobile=$('#wl_mobile');
+		var $wl_address=$('#wl_address');
+		if($buyer_name.val()==''){
+			tips($buyer_name,'请填写买家名字')
+			return false;
+		}
+		if($buyer_mobile.val()==''){
+			tips($buyer_mobile,'请填写买家联系方式')
+			return false;
+		}
+		if($provincial.val()==0){
+			tips($provincial,'请选择地区')
+			return false;
+		}
+		if($buyer_address.val()==''){
+			tips($buyer_address,'请填写买家详细地址')
+			return false;
+		}
+		if($wl_mobile.val()==''){
+			tips($wl_mobile,'请填写物流号码')
+			return false;
+		}
+		if($wl_address.val()==''){
+			tips($wl_address,'请填写物流地址')
+			return false;
+		}
+		$.ajax({
+			type: "POST",
+			url: "/admin/order/orderEdit",
+			data:'id='+$('#id').val()+'&buyer_name='+$buyer_name.val()+'&buyer_mobile='+$buyer_mobile.val()+'&province_id='+$provincial.val()+'&buyer_address='+$buyer_address.val()+'&city_id='+$municipal.val()+'&county_id='+$county.val()+'&wl_mobile='+$wl_mobile.val()+'&wl_address='+$wl_address.val(),
+			success: function(data){
+						if(data.status==1){
+							layer.msg(data.info,1,1,function(){
+								location.reload();
+							});
+						}else{
+							layer.msg(data.info,1,9);
+						}
+					}
+		});
+		return false;
+	});
+})
+
+var tips=function(e,tit){
+	e.focus();
+	// 第一个参数输入  标题
+	//参数2  要绑定的对象
+	//参数3 输出箭头方向
+	// 样式
+	layer.tips(tit,e,{time:2, guide: 0, style:['background-color:#F26C4F; color:#fff', '#F26C4F']} );	
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,325 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>小空服务管理后台</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+<script src="/static/jquery.min.js"></script>
+  <style>
+  *{padding:0;margin:0;font-size:12px;font-family:"microsoft yahei"}
+  .login-container{position:absolute;top:50%;margin-top:-180px;margin-left:-210px;left:50%;}
+  html,body{position:relative;height:100%}
+.login-container form {
+	color: #555;
+	width: 420px;
+	min-height: 300px;
+	margin: 0 auto;
+	border: 1px solid #dbdbdb;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 1px 1px 8px rgba(199,199,199,.25),-1px -1px 8px rgba(199,199,199,.25),0 1px 1px #fff inset;
+	-moz-box-shadow: 1px 1px 8px rgba(199,199,199,.25),-1px -1px 8px rgba(199,199,199,.25),0 1px 1px #fff inset;
+	background-color: #fff;
+	background-image: -moz-linear-gradient(center top,#f4f4f4,#fff);
+	background-image: -ms-linear-gradient(top,#f4f4f4,#fff);
+	background-image: -webkit-linear-gradient(top,#f4f4f4,#fff);
+	background-image: -o-linear-gradient(top,#f4f4f4,#fff);
+	background-image: linear-gradient(top,#f4f4f4,#fff);
+	box-shadow: #c7c7c7 0 0 1px\0;
+	-pie-background: linear-gradient(#f4f4f4,#fff);
+	position: relative;
+	behavior: url(/home/css/PIE.htc);
+	z-index: 1002
+}
+
+
+.login-container form .legend {
+	display: block;
+	width: 390px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #5d5d5d;
+	line-height: 14px;
+	padding: 15px 0 15px 30px;
+	margin-bottom: 0
+}
+
+.login-container form hr {
+	width: 410px;
+	border: 0;
+	border-top: 2px solid #d5d5d5;
+	border-bottom: 1px solid #fff;
+	margin: 0 auto
+}
+
+.login-container form hr.decoration {
+	width: 140px;
+	border-top: 2px solid #f60;
+	position: absolute;
+	left: 5px;
+	top: 44px
+}
+
+.login-container form hr.separator {
+	width: 390px;
+	border: 0;
+	border-top: 1px solid #e7e7e7;
+	border-bottom: 1px solid #fff;
+	margin: 0 auto
+}
+
+.login-container form .hint {
+	min-height: 30px;
+	padding: 10px 50px 0;
+	position: relative
+}
+
+.login-container form .hint-error,.login-container form .hint-info {
+	height: auto;
+	padding: 10px 50px 20px;
+	font-size: 12px
+}
+
+.login-container form .hint .info {
+	color: #f60
+}
+
+.login-container form .hint .info a {
+	color: #b6b6b6;
+	text-decoration: none;
+	position: absolute;
+	right: 50px;
+	top: 10px
+}
+
+.login-container form .hint .info a:hover {
+	text-decoration: underline
+}
+
+.login-container form .hint-ul {
+	text-align: center
+}
+
+.login-container form .hint ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: inline-block
+}
+
+.login-container form .hint ul li {
+	float: left;
+	margin: 0 5px;
+	font-size: 12px;
+	color: #ccc
+}
+
+.login-container form .hint ul li a {
+	text-decoration: none;
+	color: gray;
+	font-size: 14px
+}
+
+.login-container form .hint ul li a:hover {
+	text-decoration: underline
+}
+
+.login-container form fieldset {
+	padding: 0 50px 30px;
+	margin: 0;
+	border: 0
+}
+
+.login-container form .input-prepend {
+	font-size: 0;
+	white-space: nowrap;
+	margin-bottom: 15px
+}
+
+.login-container form .input-prepend .add-on {
+	display: inline-block;
+	width: 33px;
+	height: 26px;
+	padding: 6px 3px 4px;
+	margin-right: -1px;
+	border: 1px solid #CCC;
+	background-color: #ebebeb;
+	vertical-align: top
+}
+
+.login-container form .input {
+	font-size: 13px;
+	display: inline-block;
+	position: relative;
+	width: 260px;
+	height: 16px;
+	margin: 0;
+	padding: 10px;
+	vertical-align: top;
+	line-height: 18px;
+	background-color: #fff;
+	border: 1px solid #CCC;
+	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,.08) inset;
+	-moz-box-shadow: 0 3px 3px rgba(0,0,0,.08) inset;
+	box-shadow: 0 3px 3px rgba(0,0,0,.08) inset
+}
+
+.login-container form .btn-login {
+	padding: 4px 12px;
+	height: 38px;
+	width: 322px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: center;
+	text-shadow: 0 -1px 1px rgba(169,63,0,.3);
+	cursor: pointer;
+	vertical-align: middle;
+	border: 1px solid #ff5a00;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(129,48,0,.32) inset;
+	-moz-box-shadow: 0 1px 1px rgba(129,48,0,.32) inset;
+	box-shadow: 0 1px 1px rgba(129,48,0,.32) inset;
+	background: #ff5a00 repeat-x;
+	background-image: -moz-linear-gradient(center top,#ff7101,#ff5a00);
+	background-image: -ms-linear-gradient(top,#ff7101,#ff5a00);
+	background-image: -webkit-linear-gradient(top,#ff7101,#ff5a00);
+	background-image: -o-linear-gradient(top,#ff7101,#ff5a00);
+	background-image: linear-gradient(top,#ff7101,#ff5a00)
+}
+
+
+.login-container form .btn-login:hover {
+	background: #ff5a00 0 -15px;
+	-webkit-transition: background-position .1s linear;
+	-moz-transition: background-position .1s linear;
+	-o-transition: background-position .1s linear;
+	transition: background-position .1s linear
+}
+
+
+.login-container form .btn-groups {
+	width: 220px;
+	height: 36px;
+	margin: 0 auto 13px
+}
+
+i {
+	width: 30px;
+	height: 25px;
+	display: inline-block
+}
+
+.icon-user {
+	background-image: url(/static/icon-login.jpg);
+	background-position: -35px -5px;
+	background-repeat: no-repeat
+}
+
+.icon-key {
+	background-image: url(/static/icon-login.jpg);
+	background-position: -2px -5px;
+	background-repeat: no-repeat
+}
+
+.icon-code {
+	background-image: url(/static/icon-login.jpg);
+	background-position: -70px -5px;
+	background-repeat: no-repeat
+}
+  </style>
+</head>
+<body>
+<div class="login-container">
+        <form name="loginForm" id="loginForm" action="<?php echo U('admin/index/check','','');?>" method="post">
+                        
+            <div class="legend">小空服务管理后台登陆</div>
+            <hr>
+            <hr class="decoration">
+            <div class="hint">
+                            </div>
+            <fieldset>
+                <div id="container">
+                    <div class="input-prepend" style="padding-left:1px;">
+                        <span class="add-on">
+                            <i class="icon-user"></i>
+                        </span>
+                         <input type="text" id="nameTex" name="nameTex" placeholder="用户名 " class="input">
+					</div>
+                    <div class="input-prepend" style="padding-left:1px;">
+						 <span class="add-on">
+							<i class="icon-key"></i>
+						 </span>
+						<input id="password" name="password" type="password" placeholder="密　码 " class="input">
+					</div>
+					<div class="input-prepend" style="padding-left:1px;">
+                        <span class="add-on">
+                            <i class="icon-code"></i>
+                        </span>
+                        <input type="text" id="verifycode" name="verifycode" placeholder="验证码 " style="width:100px;margin-right:15px" class="input">
+						<a><img src="<?php echo U('admin/pub/verify','','');?>" id="VerifyIMG" style="width:100px; height:38"></a>
+					</div>
+                </div>
+                <input type="submit" class="btn-login" id="submit" value="登录" /> 
+            </fieldset>
+              <hr class="separator">
+                <div class="hint hint-ul">
+                    <ul>
+                        <li>
+                            <a href="#"> © 2016 小空服务管理后台 </a>
+                        </li>
+                    </ul>
+                </div>
+        </form>
+        
+        
+        
+        
+    </div>
+</body>
+</html>
+
+<script src="/static/layer.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#VerifyIMG').click(function(){
+		$('#VerifyIMG').attr("src","<?php echo U('Pub/verify','','');?>/"+Math.random());
+		return false;
+	});	
+		
+	$('#submit').click(function(){
+		var $nameTex=$('#nameTex');
+		var $password=$('#password');
+		var $verifycode=$('#verifycode');
+		var nameTex=$.trim($nameTex.val());
+		var password=$.trim($password.val());
+		var verifycode=$.trim($verifycode.val());
+		if(nameTex==''){
+			tips($nameTex,'请填写用户名');
+			return false;
+		}
+		if(password==''){
+			tips($password,'请填写密码');
+			return false;
+		}
+		if(verifycode==''){
+			tips($verifycode,'请填写验证码');
+			return false;
+		}
+	});
+})
+
+var tips=function(e,tit){
+	e.focus();
+	// 第一个参数输入  标题
+	//参数2  要绑定的对象
+	//参数3 输出箭头方向
+	// 样式
+	layer.tips(tit,e,{time:2, guide: 0, style:['background-color:#F26C4F; color:#fff', '#F26C4F']} );	
+}
+</script>

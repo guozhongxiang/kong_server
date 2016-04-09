@@ -1,0 +1,6 @@
+/**
+ * page.css  
+ */
+.page span,.page a{display: inline-block; width:42px; height:36px; text-align:center; line-height:36px; border: 1px solid #ddd; color: #999; margin:0 2px;}
+.page span.current{border: 1px solid #0e90d2; background:#0e90d2; color: #fff; }
+.page a.num:hover,.page a.prev:hover,.page a.next:hover,.page a.end:hover{ background-color:#ddd;}

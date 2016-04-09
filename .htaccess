@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+  
+  ##以下是301转向 请改好域名##
+	RewriteCond %{HTTP_HOST} ^azcrcn.com
+	RewriteRule ^(.*)$ http://www.azcrcn.com/$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} ^azcrcn.net
+	RewriteRule ^(.*)$ http://www.azcrcn.com/$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} www.azcrcn.net
+	RewriteRule ^(.*)$ http://www.azcrcn.com/$1 [R=301,L]
+</IfModule>

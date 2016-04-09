@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>安装超人管理平台</title>
+  <meta name="keywords" content="table">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/admin.css">
+  <link rel="stylesheet" href="/static/azcr/page.css"/>
+  <link rel="stylesheet" href="/static/azcr/admin.css"/>
+		<script src="/static/jquery.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<include file="public/header" /> 
+
+<div class="am-cf admin-main">
+<include file="public/sidebar" /> 
+
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-g">
+
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">管理员列表</strong>
+			<a type="button" class="am-btn am-btn-default am-btn-xs" href="/admin/manage/add"><span class="am-icon-plus"></span> 新增</a></div>
+		</div>
+
+<!-- search begin -->
+  <div class="am-g">
+      <form method="get" action="/admin/manage/index/" id="form1" style="position: relative;padding-left: 20px;">
+        <div class="am-form am-form-inline">
+          <div class="am-form-group">
+            <input type="text" placeholder="管理员名称" class="am-form-field " id="admin_name" name="admin_name" value="{$admin_name}">
+          </div>
+
+        <div class="am-form-group">
+          <select class="sel" id="groupid" name="groupid">
+            <option value="0">请选择权限组</option>
+            <volist name="GroupIdNameArr" id="data">
+            <option value="{$key}" <if condition="$key eq $groupid">selected="selected"</if>>{$data}</option>
+            </volist>
+          </select>
+        </div>
+
+          <div class="am-form-group">
+            <input class="am-btn am-btn-default am-btn-xs" type="submit" value="搜索">
+          </div>
+        </div>
+      </form>
+    </div>
+<!-- search end -->
+
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th class="table-title">用户名</th>
+        <th class="table-type">权限组</th>
+				<th class="table-type">锁定状态</th>
+				<th class="table-author">最后登录时间</th>
+				<th class="table-date">登录次数</th>
+				<th class="table-set">操作</th>
+              </tr>
+          </thead>
+          <tbody>
+		  <volist name="admin_list" id="data">
+            <tr>
+              <td><a href="#">{$data['admin_name']}</a></td>
+              <td><a href="#">{$GroupIdNameArr[$data['groupid']]}</a></td>
+              <td><if condition="($data['lock'] eq 0)">使用中<elseif condition="$data['lock'] eq 1"/>锁定</if></td>
+              <td><if condition="($data['last_time'] GT 0)">{:date("Y年m月d日 H:i:s",$data['last_time'])}</if></td>
+              <td>{$data['login_num']}</td>
+              <td>
+                <div class="am-btn-toolbar">
+                  <div class="am-btn-group am-btn-group-xs">
+                    <a class="am-btn am-btn-default am-btn-xs am-text-secondary edit" href="{:U('admin/manage/edit','id='.$data['id'])}"><span class="am-icon-pencil-square-o"></span>修改</a>
+                    <a class="am-btn am-btn-default am-btn-xs am-text-danger del" href="{:U('admin/manage/del','id='.$data['id'])}"><span class="am-icon-trash-o"></span>删除</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+		  </volist>
+          </tbody>
+        </table>
+    <div class="page">
+    {$pagehtml}
+    </div>
+
+          <hr />
+        </form>
+      </div>
+	  
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+
+<include file="public/footer" /> 
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/static/assets/js/polyfill/rem.min.js"></script>
+<script src="/static/assets/js/polyfill/respond.min.js"></script>
+<script src="/static/assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/static/assets/js/app.js"></script>
+</body>
+</html>
+<script src="/static/layer.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.del').click(function() {
+		$this=$(this);
+		layer.confirm('确定要删除吗？', function(){
+			window.location.href=$this.attr('href');
+		},'提醒')
+		return false;
+	});
+})
+</script>

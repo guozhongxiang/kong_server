@@ -1,0 +1,224 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>安装超人管理平台</title>
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/admin.css">
+  <script src="/static/jquery.min.js"></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<include file="public/header" /> 
+
+<div class="am-cf admin-main">
+<include file="public/sidebar" /> 
+
+<!-- content start -->
+<form action="{:U('admin/manage/editsave')}" method="post">
+<input type="hidden" value="{$admin_date['id']}" name="id">
+<div class="admin-content">
+  <div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">修改</strong> / <small>管理员或客服</small></div>
+  </div>
+
+  <div class="am-tabs am-margin" data-am-tabs>
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+      <li class="am-active"><a href="#tab1">修改管理员/客服</a></li>
+    </ul>
+
+    <div class="am-tabs-bd">
+      <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+	  
+        <div class="am-g am-margin-top">
+		<div class="am-u-sm-2 am-text-right">账户类型</div>
+		<div class="am-u-sm-4">
+			<select name="groupid" id="groupid">
+			  <option value="">请选择</option>
+	            <volist name="GroupIdNameArr" id="data">
+	            <option value="{$key}" <if condition="$key eq $admin_date['groupid']">selected="selected"</if>>{$data}</option>
+	            </volist>
+			</select>
+		</div>
+			<div class="am-u-sm-6">*必填</div>
+        </div>
+
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  用户名
+			</div>
+			<div class="am-u-sm-4">
+			  <input type="text" class="am-input-sm" name="admin_name" id="admin_name" value="{$admin_date['admin_name']}">
+			</div>
+			<div class="am-u-sm-6">*必填，不可重复</div>
+		</div>
+
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  密码
+			</div>
+			<div class="am-u-sm-4 col-end">
+			  <input type="password" class="am-input-sm" name="password1" id="password1">
+			</div>
+			<div class="am-u-sm-6">选填，不填写，提交保存则不做密码修改</div>
+		</div>
+
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  重复密码
+			</div>
+			<div class="am-u-sm-4 col-end">
+			  <input type="password" class="am-input-sm" name="password2" id="password2">
+			</div>
+			<div class="am-u-sm-6">确认密码需和上面密码一致</div>
+		</div>
+		
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  QQ
+			</div>
+			<div class="am-u-sm-4 col-end">
+			  <input type="text" class="am-input-sm" name="qq" id="qq" value="{$admin_date['qq']}">
+			</div>
+			<div class="am-u-sm-6">用作会员在线咨询</div>
+		</div>
+
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  旺旺
+			</div>
+			<div class="am-u-sm-4 col-end">
+			  <input type="text" class="am-input-sm" name="aliwangwang" id="aliwangwang" value="{$admin_date['aliwangwang']}">
+			</div>
+			<div class="am-u-sm-6">用作会员在线咨询</div>
+		</div>
+
+		<div class="am-g am-margin-top">
+			<div class="am-u-sm-2 am-text-right">
+			  账户状态
+			</div>
+			<div class="am-u-sm-4">
+				<select name="lock" id="lock">
+				  <option value="0" <if condition="($admin_date['lock'] eq 0)">selected</if>>使用</option>
+				  <option value="1" <if condition="($admin_date['lock'] eq 1)">selected</if>>锁定</option>
+				</select>
+			</div>
+			<div class="am-u-sm-6">*必填</div>
+		</div>
+
+
+		<div class="am-g am-margin-top">
+			<table class="am-table am-table-striped am-table-hover table-main">
+				<thead>
+					<tr>
+						<th class="table-title">最近20次登陆记录</th>
+						<th class="table-kefu"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="loginlog_list" id="data">
+					<tr>
+						<td>{$data['ip']}</td>
+						<td>{:date("Y年m月d日 H:i:s",$data['time'])}</td>
+					</tr>
+					</volist>
+				</tbody>
+			</table>
+		</div>
+		
+      </div>
+    </div>
+  </div>
+
+  <div class="am-margin">
+    <input type="submit" class="am-btn am-btn-primary" value="提交修改" id="submit">
+    <a type="button" class="am-btn am-btn-default" href="{:U('/admin/manage')}">返回列表</a>
+  </div>
+  
+  
+  
+</div>
+</form>
+<!-- content end -->
+
+</div>
+
+	  
+<include file="public/footer" /> 
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/static/assets/js/polyfill/rem.min.js"></script>
+<script src="/static/assets/js/polyfill/respond.min.js"></script>
+<script src="/static/assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/static/assets/js/app.js"></script>
+</body>
+</html>
+<script src="/static/layer.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#submit').click(function(){
+		var $admin_type=$('#admin_type');
+		var $admin_name=$('#admin_name');
+		var $password1=$('#password1');
+		var $password2=$('#password2');
+
+		var admin_type=$.trim($admin_type.val());
+		var admin_name=$.trim($admin_name.val());
+		var password1=$.trim($password1.val());
+		var password2=$.trim($password2.val());
+
+		if(admin_type==''){
+			tips($admin_type,'请选择管理员类别');
+			return false;
+		}
+		if(admin_name==''){
+			tips($admin_name,'请填写用户名');
+			return false;
+		}
+		if(password1!=''){
+			if(password2==''){
+				tips($password2,'请填写确认密码');
+				return false;
+			}
+			if(password1!=password2){
+				tips($password2,'两次密码不一致');
+				return false;
+			}
+			if(password1.length<6){
+				tips($password1,'密码必须大于6位');
+				return false;
+			}
+			
+		}
+	});
+})
+
+var tips=function(e,tit){
+	e.focus();
+	// 第一个参数输入  标题
+	//参数2  要绑定的对象
+	//参数3 输出箭头方向
+	// 样式
+	layer.tips(tit,e,{time:2, guide: 0, style:['background-color:#F26C4F; color:#fff', '#F26C4F']} );	
+}
+</script>

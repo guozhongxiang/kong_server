@@ -1,0 +1,331 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>安装超人管理平台</title>
+  <meta name="keywords" content="table">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/static/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/static/assets/css/admin.css">
+		<script src="/static/jquery.min.js"></script>
+		<link rel="stylesheet" href="/static/azcr/page.css"/>
+
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<include file="public/header" /> 
+
+
+<div class="am-cf admin-main">
+<include file="public/sidebar" /> 
+
+  <!-- content start -->
+  <div class="admin-content">
+
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">财务审核列表</strong>
+			<!-- <a type="button" class="am-btn am-btn-default am-btn-xs" href="{:U('admin/manage/add','admin_type=admin')}"><span class="am-icon-plus"></span> 新增</a> --></div>
+		</div>
+	
+	
+	<div class="am-g">
+
+		<div class="am-tabs am-padding">
+			<ul class="am-tabs-nav am-nav am-nav-tabs" id="tab_box">
+				<li class="<if condition="($financeStatus eq 1) AND ($payType eq 0)">am-active</if>"><a href="/admin/order/financelist/financeStatus/1/payType/0">待审核（日结）</a></li>
+				<li class="<if condition="($financeStatus eq 1) AND ($payType eq 1)">am-active</if>"><a href="/admin/order/financelist/financeStatus/1/payType/1">待审核（月结）</a></li>
+				<li class="<if condition="($financeStatus eq 2) AND ($payType eq 0)">am-active</if>"><a href="/admin/order/financelist/financeStatus/2/payType/0">待结款（日结）</a></li>
+				<li class="<if condition="($financeStatus eq 2) AND ($payType eq 1)">am-active</if>"><a href="/admin/order/financelist/financeStatus/2/payType/1">待结款（月结）</a></li>
+			</ul> 
+			
+		</div>
+
+
+			<form method="get" action="/admin/order/financelist/" id="form1" style="position: relative;padding-left: 20px;">
+				<div class="am-form am-form-inline">
+					<div class="am-form-group">
+					<input type="text" placeholder="订单号" class="am-form-field " name="order_id_sel" value="{$order_id_sel}">
+					<input type="hidden" value="{$financeStatus}" name="financeStatus" id="financeStatus">
+					<input type="hidden" value="{$payType}" name="payType" id="payType">
+					</div>
+					<div class="am-form-group">
+					<input type="text" placeholder="买家手机号码" class="am-form-field " name="buyer_mobile_sel" value="{$buyer_mobile_sel}">
+					</div>
+					<div class="am-form-group">
+					<input type="text" placeholder="卖家名称" class="am-form-field " name="vip_name_sel" value="{$vip_name_sel}">
+					</div>
+					<div class="am-form-group">
+					<input type="text" placeholder="卖家手机号" class="am-form-field " name="vip_phone_sel" value="{$vip_phone_sel}">
+					</div>
+					<div class="am-form-group">
+					<input type="text" placeholder="下单开始时间" class="am-form-field time" name="order_time_time1" value="{:date('Y-m-d', $order_time_time1)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+					</div>
+					<div class="am-form-group">
+					<input type="text" placeholder="下单结束时间" class="am-form-field time" name="order_time_time2" value="{:date('Y-m-d', $order_time_time2)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+					</div>
+					<div class="am-form-group">
+						<input class="am-btn am-btn-default am-btn-xs" type="submit" value="搜索">
+						<input class="am-btn am-btn-default am-btn-xs" id="show_export" type="button" value="导出搜索结果">
+					</div>
+				</div>
+                
+                <style type="text/css">
+                #form1 input{width: 120px; height: 31px; font-size: 12px;}
+                #form1 select{height: 31px; font-size: 12px; padding-right: 20px;}
+                	.more-box{overflow: hidden; height: 0px;}
+                	.more-show, .more-hide{display: inline-block; width: 32px; height: 32px; cursor: pointer;}
+					.more-show{background: url(/static/arr_show.png);}
+					.more-hide{background: url(/static/arr_hide.png);}
+
+					.arr-box{text-align:center;margin: 0 0 30px 0;padding: 0;border-bottom: 1px solid #eee; height: 32px;}
+                </style>
+                <script type="text/javascript">
+                $(function() {
+                	$('body').on('click', '.more-show', function() {
+                		$(this).removeClass('more-show');
+                		$(this).addClass('more-hide');
+						$(".more-box").animate({height:"110px"});
+
+                	}).on('click', '.more-hide', function() {
+                		$(this).removeClass('more-hide');
+                		$(this).addClass('more-show');
+						$(".more-box").animate({height:"0px"});
+                	});
+                });
+                </script>
+		        <div class="more-box" style="height:<if condition='$show eq 1'>110px<else />0px</if>">  
+						<div class="am-form am-form-inline" style="margin-top:20px;">
+		                    <div class="am-form-group">
+		                    <select name="service_id">
+		                    	<option value="">请选择客服</option>
+		                    	<volist name="service_list" id="data">
+								<if condition="$data['groupid'] eq 2">
+		                    	<option value="{$key}" <if condition="$key eq $service_id">selected="selected"</if>>{$data['admin_name']}</option>
+								</if>
+		                        </volist>
+		                    </select>	
+							</div>
+
+							<div class="am-form-group">
+							<input type="text" placeholder="客服接单开始时间" class="am-form-field time" name="confirm_time_time1" value="{:date('Y-m-d', $confirm_time_time1)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+							</div>
+							<div class="am-form-group">
+							<input type="text" placeholder="客服接单结束时间" class="am-form-field time" name="confirm_time_time2" value="{:date('Y-m-d', $confirm_time_time2)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+							</div>
+
+							<div class="am-form-group">
+							<select class="sel" id="provincial" name="province_id">
+								<option value="0">请选择省级</option>
+								<volist name="provincial_list" id="data">
+								<option value="{$data['id']}">{$data['area_name']}</option>
+								</volist>
+							</select>
+							</div>
+							<div class="am-form-group">
+							<select class="sel" id="municipal" name="city_id">
+								<option value="0">请选择市级</option>
+							</select>
+							</div>
+							<div class="am-form-group">
+							<select class="sel" id="county" name="county_id">
+								<option value="0">请选择县级</option>
+							</select>
+		                    </div>
+		                </div>
+						
+						
+
+						<div class="am-form am-form-inline" style="margin-top:20px;">
+							<div class="am-form-group">
+							<input type="text" placeholder="联盟成员id" class="am-form-field" name="worker_id" value="{$worker_id}">
+							</div>
+							<div class="am-form-group">
+							<input type="text" placeholder="买家姓名" class="am-form-field" name="buyer_name_sel" value="{$buyer_name_sel}">
+							</div>
+							<div class="am-form-group">
+							<input type="text" placeholder="订单完成开始时间" class="am-form-field time" name="ok_time_time1" value="{:date('Y-m-d', $ok_time_time1)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+							</div>
+							<div class="am-form-group">
+							<input type="text" placeholder="订单完成结束时间" class="am-form-field time" name="ok_time_time2" value="{:date('Y-m-d', $ok_time_time2)}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+							</div>
+		                </div>
+				</div>
+		       	<p class="arr-box"><span class="<if condition='$show eq 1'>more-hide<else />more-show</if>" title="更多搜索"></span></p>
+			</form>
+
+    </div>
+	
+    <div class="am-g">
+
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+				<th class="table-title">订单号</th>
+				<th class="table-kefu">订单状态</th>
+				<th class="table-kefu">客服</th>
+				<th class="table-shop">电商</th>
+				<th class="table-type">下单时间</th>
+				<th class="table-author">买家名称</th>
+				<th class="table-set">操作</th>
+              </tr>
+          </thead>
+          <tbody>
+		  <volist name="order_list" id="data">
+            <tr>
+				<td><a href="{:U('admin/order/infor','id='.$data['id'])}">{$data['order_id']}</a></td>
+				<td>{$status_arr[$data['status']]}</td>
+				<td>{$service_list[$data['service_id']]['admin_name']}</td>
+				<td>{$data['shop_name']}<br/>({$data['telephone']})</td>
+				<td>{:date("Y年m月d日 H:i:s",$data['order_time'])}</td>
+				<td>{$data['buyer_name']}<br/>({$data['buyer_mobile']})</td>
+				<td>
+					<div class="am-btn-toolbar">
+					  <div class="am-btn-group am-btn-group-xs">
+						<a class="am-btn am-btn-default am-btn-xs am-text-secondary edit" href="{:U('admin/order/infor','id='.$data['id'])}"><span class="am-icon-pencil-square-o"></span>查看详情</a>
+						<a class="am-btn am-btn-default am-btn-xs am-text-danger del" href="{:U('admin/order/del','id='.$data['id'])}"><span class="am-icon-trash-o"></span>取消订单</a>
+					  </div>
+					</div>
+				  </td>
+            </tr>
+		  </volist>
+          </tbody>
+        </table>
+		<div class="page">
+		{$pagehtml}
+		</div>
+          <hr />
+        </form>
+      </div>
+	  
+	  
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+
+<include file="public/footer" /> 
+
+
+
+<!--  -->
+	<style type="text/css">
+		#export_field_box span{width: 120px; display: inline-block; line-height: 30px;}
+		#export_field_box span input{margin-right:5px; display: inline-block; cursor: pointer;}
+		#export_field_box label{ display: inline-block; cursor: pointer;}
+	</style>
+	<div id="export_field_box" style="width:600px;padding:25px; display:none; background:#fff;">
+		<form id="form2" action="/admin/order/export" method="post">
+			<span><input type="checkbox" id="field-1" name="order_id" value="订单号" checked><label for="field-1">订单号</label></span>
+			<span><input type="checkbox" id="field-2" name="service_id" value="所属客服"><label for="field-2">所属客服</label></span>
+			<span><input type="checkbox" id="field-3" name="vip_id" value="卖家" checked><label for="field-3">卖家</label></span>
+			<span><input type="checkbox" id="field-28" name="worker_id" value="联盟成员编号" checked><label for="field-28">联盟成员编号</label></span>
+			<span><input type="checkbox" id="field-4" name="worker_name" value="联盟成员" checked><label for="field-4">联盟成员</label></span>
+			<span><input type="checkbox" id="field-27" name="worker_phone" value="联盟成员手机" checked><label for="field-27">联盟成员手机</label></span>
+			<span><input type="checkbox" id="field-5" name="buyer_name" value="买家名称" checked><label for="field-5">买家名称</label></span>
+			<span><input type="checkbox" id="field-6" name="status" value="订单状态" checked><label for="field-6">订单状态</label></span>
+			<span><input type="checkbox" id="field-7" name="order_time" value="下单时间" checked><label for="field-7">下单时间</label></span>
+			<span><input type="checkbox" id="field-8" name="province_id" value="省级" checked><label for="field-8">省级</label></span>
+			<span><input type="checkbox" id="field-9" name="city_id" value="市级" checked><label for="field-9">市级</label></span>
+			<span><input type="checkbox" id="field-10" name="county_id" value="县级" checked><label for="field-10">县级</label></span>
+			<span><input type="checkbox" id="field-11" name="buyer_address" value="买家地址"><label for="field-11">买家地址</label></span>
+			<span><input type="checkbox" id="field-12" name="buyer_mobile" value="买家手机" checked><label for="field-12">买家手机</label></span>
+			<span><input type="checkbox" id="field-13" name="arrive_time" value="到达时间"><label for="field-13">到达时间</label></span>
+			<span><input type="checkbox" id="field-14" name="is_arrived" value="物流到货"><label for="field-14">物流到货</label></span>
+			<span><input type="checkbox" id="field-15" name="wl_address" value="物流网点"><label for="field-15">物流网点</label></span>
+			<span><input type="checkbox" id="field-16" name="wl_mobile" value="物流电话"><label for="field-16">物流电话</label></span>
+			<span><input type="checkbox" id="field-17" name="order_message" value="订单备注"><label for="field-17">订单备注</label></span>
+			<span><input type="checkbox" id="field-18" name="order_total" value="订单总价" checked><label for="field-18">订单总价</label></span>
+			<span><input type="checkbox" id="field-19" name="pay_time" value="支付时间"><label for="field-19">支付时间</label></span>
+			<span><input type="checkbox" id="field-20" name="confirm_time" value="客服接单时间"><label for="field-20">客服接单时间</label></span>
+			<span><input type="checkbox" id="field-21" name="paidan_time" value="派单时间"><label for="field-21">派单时间</label></span>
+			<span><input type="checkbox" id="field-22" name="contact_time" value="已联系买家时间"><label for="field-22">已联系买家时间</label></span>
+			<span><input type="checkbox" id="field-23" name="bespeak_time" value="预约上门时"><label for="field-23">预约上门时</label></span> 
+			<span><input type="checkbox" id="field-24" name="action_time" value="提货上门时间"><label for="field-24">提货上门时间</label></span>
+			<span><input type="checkbox" id="field-25" name="ok_time" value="订单完成时间" checked><label for="field-25">订单完成时间</label></span>
+			<!-- <span><input type="checkbox" name="lock_time" value="lock_time">lock_time</span> -->
+			<span><input type="checkbox" id="field-26" name="paymented_time" value="结款时间" checked><label for="field-26">结款时间</label></span>
+			<span><input type="checkbox" id="field-27" name="pd_price" value="派单价格" checked><label for="field-27">派单价格</label></span> 
+			<input type="hidden" value='{$query}' name="query" id="query">
+			<div style="text-align:center;">
+				<input type="submit" class="am-btn am-btn-primary" id="export_btn" value="确定导出">
+			</div>
+		</form>
+	</div>
+<!-- -->
+
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/static/assets/js/polyfill/rem.min.js"></script>
+<script src="/static/assets/js/polyfill/respond.min.js"></script>
+<script src="/static/assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/static/assets/js/app.js"></script>
+<script src="/static/layer.min.js"></script>
+<script src="/static/DatePicker/WdatePicker.js"></script>
+<script src="/static/area_sel.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.del').click(function() {
+		$this=$(this);
+		layer.confirm('确定要取消此订单吗？', function(){
+			window.location.href=$this.attr('href');
+		},'提醒')
+		return false;
+	});
+
+	
+	var $times=$(".time");
+	$times.each(function(){
+		if($(this).val()=='1970-01-01'){
+			$(this).val('');
+		}
+	});
+
+	$('#show_export').click(function(){
+			if ($('#query').val()=='[]') {
+				layer.msg('并没有搜索条件~',1,9);
+				return false;
+			}
+			var i = $.layer({
+				type: 1,
+				title: '选择要导出的字段',
+				closeBtn: [0 , true],
+				shadeClose: true,
+				border : [5, 0.5, '#666', true],
+				offset:['50px' , ''],
+				area: ['600px','300px;'],
+				fadeIn: 0,
+				shadeClose : false,
+				page: {
+					dom: '#export_field_box'
+				},
+				end: function(){
+					
+				}
+			});
+	});
+
+})
+</script>
+</body>
+</html>
