@@ -1,0 +1,136 @@
+{{include file="admin/header.html"}}
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  {{include file="admin/sideBar.html"}}
+  <!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">下单</strong> /
+        <small>form</small>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="am-tabs am-margin" data-am-tabs>
+      <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li class="am-active"><a href="#tab1">基本信息</a></li>
+      </ul>
+
+      <div class="am-tabs-bd">
+
+        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+          <form class="am-form" action="{{$__host__}}index.php?mod=order&act=edit&type=admin" method="post">
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                  项目名称
+                </div>
+                <div class="am-u-sm-8 am-u-md-4">
+                  <input type="text" name="projectname" class="am-input-sm" value="{{$order_data['project_name']}}">
+                </div>
+                <div class="am-hide-sm-only am-u-md-6"></div>
+              </div>
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                  联系人
+                </div>
+                <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                  <input type="text" name="username" class="am-input-sm" value="{{$order_data['customer_name']}}">
+                </div>
+              </div>
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                  联系电话
+                </div>
+                <div class="am-u-sm-8 am-u-md-4">
+                  <input type="text" name="mobile" class="am-input-sm" value="{{$order_data['customer_phone']}}">
+                </div>
+                <div class="am-hide-sm-only am-u-md-6"></div>
+              </div>
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                  地址
+                </div>
+                <div class="am-u-sm-8 am-u-md-4">
+                  <select class="sel" id="provincial" name="provincial">
+                    <option value="0">请选择</option>
+                    {{foreach from=$Provincial_list_data item=provincial}}
+                      <option value="{{$provincial.id}}">{{$provincial.area_name}}</option>
+                    {{/foreach}}
+                  </select>
+                  <select class="sel" id="municipal" name="municipal">
+                    <option value="0">请选择</option>
+                  </select>
+                  <select class="sel" id="county" name="county">
+                    <option value="0">请选择</option>
+                  </select>
+                </div>
+                <div class="am-u-sm-12 am-u-md-6"></div>
+              </div>
+
+              <div class="am-g am-margin-top-sm">
+                <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                  详细地址
+                </div>
+                <div class="am-u-sm-12 am-u-md-10">
+                  <textarea rows="10" name="detailaddress" placeholder="请填写详细地址">{{$order_data['customer_address']}}</textarea>
+                </div>
+              </div>
+
+              <div class="am-margin">
+                <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+{{include file="admin/footer.html"}}
+
+<script type="text/javascript">
+
+$(function(){
+  var $provincial=$('#provincial');
+  var $municipal=$('#municipal');
+  var $county=$('#county');
+
+  $provincial.change(function() {
+    $e=$(this);
+    $municipal.find('option').remove();
+    $county.find('option').remove();
+    $county.append($('<option value="0">请选择</option>'));
+    $.getJSON("/index.php?mod=pub&act=getAreaOptionAjax&type=admin",{tid:$e.val(),level:2},function(data) {
+      if (data.errCode==1) {
+        $municipal.html(data['data']);
+      };
+    });
+  });
+
+  $municipal.change(function() {
+    $e=$(this);
+    $county.find('option').remove();
+    $.getJSON("/index.php?mod=pub&act=getAreaOptionAjax&type=admin",{tid:$e.val(),level:3},function(data) {
+      if (data.errCode==1) {
+        $county.html(data['data']);
+      };
+    });
+  });
+  
+});
+</script>

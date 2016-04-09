@@ -1,0 +1,112 @@
+{{include file="admin/header.html"}}
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  {{include file="admin/sideBar.html"}}
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">订单列表</strong></div>
+      </div>
+
+      <hr>
+<!--
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <select data-am-selected="{btnSize: 'sm'}">
+              <option value="option1">所有类别</option>
+              <option value="option2">IT业界</option>
+              <option value="option3">数码产品</option>
+              <option value="option3">笔记本电脑</option>
+              <option value="option3">平板电脑</option>
+              <option value="option3">只能手机</option>
+              <option value="option3">超极本</option>
+            </select>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+-->
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+            <tr>
+              <th>订单ID</th>
+              <th>项目名</th>
+              <th>客户姓名</th>
+              <th>客户电话</th>
+              <th>客户地址</th>
+              <th>详细地址</th>
+              <th>下单时间</th>
+              <th>订单状态</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+              {{foreach from=$order_list item=order}}
+              <tr>
+                <td>{{$order.order_id}}</td>
+                <td>{{$order.project_name}}</td>
+                <td>{{$order.customer_name}}</td>
+                <td>{{$order.customer_phone}}</td>
+                <td>{{$order.address}}</td>
+                <td>{{$order.customer_address}}</td>
+                <td>{{$order.create_time}}</td>
+                <td>{{$order.statusTxt}}</td>
+              <td>
+                <div class="am-btn-toolbar">
+                  <div class="am-btn-group am-btn-group-xs">
+                    <a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{{$__host__}}/index.php?mod=order&act=editView&type=admin&order_id={{$order.order_id}}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only">{{if !empty($order.next_status)}}<span class="opt" data-id="{{$order.order_id}}" data-url="{{$order.change_url}}">{{$order.next_status}}</span>{{else}}已付款{{/if}}</button>
+                  </div>
+                </div>
+              </td>
+              </tr>
+              {{/foreach}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{include file="admin/footer.html"}}
+<script type="text/javascript">
+  $('.opt').on('click', function(){
+    var node     = $(this);
+    var order_id = node.attr('data-id');
+    var url      = "{{$__host__}}" + node.attr('data-url');
+
+    $.ajax({
+      url :       url,
+      type :      "post",
+      dataType :  "json",
+      data : {
+        'order_id'  : order_id,
+        'status'    : status
+      },
+      success: function(data) {
+        if (data.errCode == 1) {
+          window.location.reload();
+        } else {
+          alert(data.Msg);
+        }
+      },
+      error : function(e) {
+        alert('failed');
+      }
+    });
+  });
+</script>
